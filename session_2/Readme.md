@@ -75,7 +75,7 @@ Based on the chain rule, if x effects y, y effects z. Then d(z)/d(x) = d(z)/d(y)
 ```
 dE_t/dw5 = d(E1 + E2)/dw5
 dE_t/dw5 = dE1/dw5 (as E2 is not dependent on w5)
-dE_t/dw5 = dE1/da_o1 * da_o1/do1 * do1/dw5 (by applying calculus chain rule)
+dE_t/dw5 = dE1/da_o1 * da_o1/do1 * do1/dw5 (by applying calculus chain rule - E1 dependent on a_o1, a_o1 dependent on o1)
 	- dE_1/da_o1 = d(1/2 * (t1 - a_o1)^2)/da_o1 = (t1 - a_o1) * (-1) = (a_o1 - t1)
 	- da_o1/do1 = d(sigmoid(o1))/do1 = sigmoid(o1) * (1 - sigmoid(o1)) = a_o1 * (1 - a_o1)
 	- do1/dw5 = d(w5 * a_h1 + w6 * a_h2)/dw5 = a_h1
@@ -89,7 +89,10 @@ dE_t/dw8 = (a_o2 - t2) * (a_o2) * (1 - a_o2) * a_h2
 
 ```
 dE_t/da_h1 = d(E1+E2)/da_h1 = dE1/da_h1 + dE2/da_h1
-
+```
+By applying chain rule. as a_h1 affects E1 in the following route. a_h1 -> o1 -> a_o1 -> E1 
+and from E1, da_h1 can only be reached from a_o1. 
+```
 dE1/da_h1 = dE1/da_o1 * da_o1/do1 * do1/da_h1 = (a_o1 - t1) * (a_o1) * (1 - a_o1) * w5
 dE2/da_h1 = dE2/da_o2 * da_o2/do2 * do2/da_h1 = (a_o2 - t2) * (a_o2) * (1 - a_o2) * w7
 
@@ -98,7 +101,14 @@ dE2/da_h2 = dE2/da_o2 * da_o2/do2 * do2/da_h1 = (a_o2 - t2) * (a_o2) * (1 - a_o2
 ```
 
 Let's compute the gradient's for w1.
-Based on the network, we can see that w1 only affects a_h1
+Based on the network, we can see that w1 only affects a_h1.
+E_Total = (E1 + E2)
+Hence,
+dE_t/dw1 = dE1/dw1 + dE2/dw1
+E1 is directly affected by w1 in the following route. w1 -> h1 -> a_h1 -> o1 -> a_o1 -> E1
+E2 is affected by w1 in the following route. w1 -> h1 -> a_h1 -> o2 -> a_o2 -> E2
+Hence we get the following by applying chain rule.
+
 ```
 dE_t/dw1 = dE1/da_o1 * da_o1/do1 * do1/da_h1 * da_h1/dh1 * dh1/dw1 + dE2/da_o2 * da_o2/do2 * do2/da_h1 * da_h1/dh1 * dh1/dw1
          = (dE1/da_h1 + dE2/da_h1) * da_h1/dh1 * dh1/dw1
