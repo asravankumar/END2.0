@@ -56,10 +56,12 @@ According to Gradient Descent optimization algorithm, the weights are updated ba
  - wi = wi - learning_rate * d(E_t)/dwi
  - dE_t/dwi is a partial derivate of Total error w.r.t the weight wi.
 Hence, multiple iterations have to be performed on the network for the weights to be updated to reach minimal error.
-Backpropagation calculates the gradients of errors with respect to different weights/parameters of the network.
+
+Backpropagation calculates the gradients of errors with respect to different weights/parameters of the network used to obtain optimal weights of the network.
 
 Let's start with updating w5. We need to compute dE_t/dw5.
 Based on the chain rule, if x effects y, y effects z. Then d(z)/d(x) = d(z)/d(y) * d(y)/d(x)
+
 ```
 dE_t/dw5 = d(E1 + E2)/dw5
 dE_t/dw5 = dE1/dw5 (as E2 is not dependent on w5)
@@ -86,6 +88,7 @@ dE2/da_h2 = dE2/da_o2 * da_o2/do2 * do2/da_h1 = (a_o2 - t2) * (a_o2) * (1 - a_o2
 ```
 
 Let's compute the gradient's for w1.
+Based on the network, we can see that w1 only affects a_h1
 ```
 dE_t/dw1 = dE1/da_o1 * da_o1/do1 * do1/da_h1 * da_h1/dh1 * dh1/dw1 + dE2/da_o2 * da_o2/do2 * do2/da_h1 * da_h1/dh1 * dh1/dw1
          = (dE1/da_h1 + dE2/da_h1) * da_h1/dh1 * dh1/dw1
@@ -110,3 +113,9 @@ dE_t/dw2 = ((a_o1 - t1) * (a_o1) * (1 - a_o1) * w5 + (a_o2 - t2) * (a_o2) * (1 -
 dE_t/dw3  = ((a_o1 - t1) * (a_o1) * (1 - a_o1) * w6 + (a_o2 - t2) * (a_o2) * (1 - a_o2) * w8) * (a_h2) * (1 - a_h2) * i1
 dE_t/dw4  = ((a_o1 - t1) * (a_o1) * (1 - a_o1) * w6 + (a_o2 - t2) * (a_o2) * (1 - a_o2) * w8) * (a_h2) * (1 - a_h2) * i2
 ```
+
+All these weights are updated based on the gradient descent formula
+```
+w_new = w_old - learning_rate * dE_total/dw_old
+```
+The updating when done with appropriate learning rate would yield weights with minimal error.
