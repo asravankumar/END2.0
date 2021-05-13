@@ -23,11 +23,15 @@
 ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_2/network.png)
 
  - The network considered in the excel sheet takes two inputs. (i1 & i2)
+ - Hidden Layer with 2 nodes
+ - Output Layer with 2 nodes
  - The Actual Output (t1 & t2)
- - Activation Function - sigmoid 
- - 8 weights w1, w2, w3, ..., w8
+ - Activation Function on hidden layer and output layer nodes- sigmoid 
+ - 8 weights w1, w2, w3, ..., w8 connecting different nodes in the network
  
 #### Forward Propagation
+ Based on the weights and input in the network, the input to subsequent layers are computed.
+
  1st layer
  ```
   - h1 =w1*i1 + w2*i2
@@ -43,6 +47,8 @@
   - a_o1 = sigmoid(o1) = 1/(1 + exp(-o1))
   - a_o2 = sigmoid(o2) = 1/(1 + exp(-02))
 ```
+
+ Now that the predict value is computed, we compute the error.
  Errors w.r.t the targets. - L2 error.
  The difference between actual and predicted error.
  ```
@@ -53,8 +59,12 @@
 
 #### BackPropagation
 According to Gradient Descent optimization algorithm, the weights are updated based on the below equation
+
+```
  - wi = wi - learning_rate * d(E_t)/dwi
  - dE_t/dwi is a partial derivate of Total error w.r.t the weight wi.
+```
+
 Hence, multiple iterations have to be performed on the network for the weights to be updated to reach minimal error.
 
 Backpropagation calculates the gradients of errors with respect to different weights/parameters of the network used to obtain optimal weights of the network.
