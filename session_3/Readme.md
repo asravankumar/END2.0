@@ -16,10 +16,53 @@ Write a neural network that can take 2 inputs:
 MNIST training data is downloaded from torchvision datasets.
 The training data consists of 60000 labelled images.
 
+```
+# download training mnist dataset which consists of 60000 labelled images
+train_set = torchvision.datasets.MNIST(
+    root='./data'
+    ,train=True
+    ,download=True
+    ,transform=transforms.Compose([
+        transforms.ToTensor() # converts the images into pytorch tensors
+    ])
+)
+```
+
 ### Data Generation
 The MNIST data is combined with the following approach to generate the complete training data for the problem.
 - For each image, a random number is generated, sum is calculated with the image label. the random number is converted to one-hot vector.
 
+```
+# data set creation
+class MNISTAdderDataset(Dataset):
+  # Dataset to create mnist custom data for mnist + random number adder.
+
+  def __init__(self, dataset):
+    self.mnist_data = dataset
+    
+  def __getitem__(self, index):
+    # returns tuple with following input and output for every image.
+    # input : x1 - tensor image
+    # input : x2 - one hot vector for random number
+    # labelled output : y1 - the image's label number.
+    # labelled output : y2 - the sum.
+
+    x1, y1 = self.mnist_data[index]
+    x2 = random.randint(0,9)
+    y2 = y1 + x2 
+    return (x1, F.one_hot(torch.tensor(x2), 10).float(), y1, y2)
+
+  def __len__(self):
+    return len(self.mnist_data)
+```
+
+```
+mnist_adder_training_data = MNISTAdderDataset(train_set)
+mnist_adder_training_data_loader = torch.utils.data.DataLoader(mnist_adder_training_data,
+                                               batch_size=100,
+                                               shuffle=False,
+                                               )
+```
 
 ### Network
 The network consists of the following layers.
@@ -47,4 +90,169 @@ Network(
 - Hence, the image prediction occurs at the end of linear fully connected layer before combining the two vectors.
 - The sum prediction is done after combining. The output later has 19 features for representing from 0 to 18.
 
+```
+import torch.nn as nn
+import torch.nn.functional as F
+
+# Network creation
+
+class Network(nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        # input is 28x28 with 1 channel, kernel size is 5x5
+        # output of convolution layer is 24x24 i.e (28 - 5 )/ 1 + 1
+        # maxpool layer is with kernel size 2 and stride 2
+        # output of max pool layer is 12x12 i.e (24 - 2)/2 + 1
+        self.conv1 = nn.Conv2d(in_channels=1, out_channels=6, kernel_size=5)
+
+        # input is 12x12 with 1 channel, kernel size is 5x5
+        # output of convolution layer is 8x8 i.e (12 - 5 )/ 1 + 1
+        # maxpool layer is with kernel size 2 and stride 2
+        # output of max pool layer is 4x4 i.e (8 - 2)/2 + 1
+        self.conv2 = nn.Conv2d(in_channels=6, out_channels=12, kernel_size=5)
+
+        # fully connected layer with input will be 12 * 4 * 4
+        # and 50 output features
+        self.fc1 = nn.Linear(in_features=12 * 4 * 4, out_features=50)
+        # another fully connected layer
+        self.fc2 = nn.Linear(in_features=50, out_features=40)
+        # output layer for image classification
+        self.out = nn.Linear(in_features=40, out_features=10)
+
+        # fully connected layer after combining image classification output and random number one-hot vector.
+        self.fc3 = nn.Linear(in_features=20, out_features=21)
+        #self.fc4 = nn.Linear(in_features=30, out_features=24)
+
+        # final sum output layer. 19 features output. 19 because of one-hot vector for 0 to 19. as sum of 0 - 9 image  with 0 - 9 random numbers.
+         self.out2 = nn.Linear(in_features=21, out_features=19)
+
+    def forward(self, t, rand_num_vector):
+        # convolution layer
+        t = self.conv1(t)
+        t = F.relu(t)
+        t = F.max_pool2d(t, kernel_size=2, stride=2)
+
+        # convolution layer
+        t = self.conv2(t)
+        t = F.relu(t)
+        t = F.max_pool2d(t, kernel_size=2, stride=2)
+        
+        # hidden linear layer
+        # converting the image to a straight vector.
+        t = t.reshape(-1, 12 * 4 * 4)
+        t = self.fc1(t)
+        t = F.relu(t)
+
+        # hidden linear layer
+        t = self.fc2(t)
+        t = F.relu(t)
+
+        # output layer for image classification
+        t = self.out(t)
+        
+        # converting to one hot vector for image predicted value.
+        t_vector = F.one_hot(t.argmax(dim=1), num_classes=10)
+        #print("t_vector", t_vector)
+        #print("rand_num_vector", rand_num_vector)
+
+        # now combining the image output with random number vector for addition.
+        combined_vector = torch.cat([t_vector, rand_num_vector], dim=-1)
+        #print("combined vector", combined_vector)
+        combined_vector = self.fc3(combined_vector)
+        combined_vector = F.relu(combined_vector)
+
+        #combined_vector = self.fc4(combined_vector)
+        #combined_vector = F.relu(combined_vector)
+
+
+        # final layer with outputs the sum of the two numbers.
+        combined_vector = self.out2(combined_vector)
+        combined_vector = F.relu(combined_vector)
+
+        return t, combined_vector
+```
+
+### Training
+Training is done by using the data loader with batch size of 100.
+Loss is calculated for image classification and sum prediction individually and is propagated back. 
+Adam Optimizer is used during training.
+
+```
+import torch.optim as optim
+torch.set_grad_enabled(True) # to enable the gradients.
+
+network = Network()
+optimizer = optim.Adam(network.parameters(), lr=0.02) # using adam's optimizer with learning rate of 0.02
+
+# to check the number of correct predictions.
+def get_num_correct(X, Y):
+  return X.argmax(dim=1).eq(Y).sum().item()
+
+
+
+for epoch in range(10):
+
+    total_loss = 0
+    total_correct_mnist = 0
+    total_correct_sum = 0
+
+    for batch in mnist_adder_training_data_loader:
+        # for every batch predict using network and backpropagate the loss.
+        # x1s : images input
+        # x2s : random number one hot vectors.
+        # y1s : image labels.
+        # y2s : sum.
+    
+        x1s, x2s, y1s, y2s = batch
+        x2s = x2s.squeeze()
+
+        # predictions
+        predicted_y1s, predicted_y2s = network(x1s, x2s)
+
+        # calculate the loss for image prediction.
+        loss1 = F.cross_entropy(predicted_y1s, y1s)
+        # calculate the loss for sum.
+        loss2 = F.cross_entropy(predicted_y2s, y2s)
+        loss = loss1 + loss2 # total loss.
+
+        optimizer.zero_grad()           
+        loss.backward()                 # calculate gradients
+        optimizer.step()                # update weights 
+
+
+        total_loss += loss.item()
+        total_correct_mnist += get_num_correct(predicted_y1s, y1s)
+        total_correct_sum += get_num_correct(predicted_y2s, y2s)
+        #break
+    #break
+    image_accuracy = (total_correct_mnist/60000.0)*100;
+    image_sum = (total_correct_sum/60000.0)*100;
+
+    print(
+        "epoch:", epoch,
+        "batch_size: ", 100,
+        "correct_images_count", total_correct_mnist,
+        "correct_sum_count", total_correct_sum,
+        "image_accuracy",image_accuracy, 
+        "sum_accuracy", image_sum,
+        "total_loss", total_loss
+    )
+```
+
+The logs during training
+
+```
+epoch: 0 batch_size:  100 correct_images_count 54612 correct_sum_count 38350 image_accuracy 91.02 sum_accuracy 63.916666666666664 total_loss 968.1364297270775
+epoch: 1 batch_size:  100 correct_images_count 57231 correct_sum_count 43314 image_accuracy 95.38499999999999 sum_accuracy 72.19 total_loss 692.24047935009
+epoch: 2 batch_size:  100 correct_images_count 57431 correct_sum_count 43342 image_accuracy 95.71833333333333 sum_accuracy 72.23666666666666 total_loss 678.8417452573776
+epoch: 3 batch_size:  100 correct_images_count 57670 correct_sum_count 43670 image_accuracy 96.11666666666666 sum_accuracy 72.78333333333333 total_loss 660.866904437542
+epoch: 4 batch_size:  100 correct_images_count 57632 correct_sum_count 43569 image_accuracy 96.05333333333334 sum_accuracy 72.615 total_loss 666.2280558943748
+epoch: 5 batch_size:  100 correct_images_count 57715 correct_sum_count 43771 image_accuracy 96.19166666666666 sum_accuracy 72.95166666666667 total_loss 656.60302901268
+epoch: 6 batch_size:  100 correct_images_count 57567 correct_sum_count 43582 image_accuracy 95.94500000000001 sum_accuracy 72.63666666666667 total_loss 675.5272351503372
+epoch: 7 batch_size:  100 correct_images_count 57889 correct_sum_count 43887 image_accuracy 96.48166666666667 sum_accuracy 73.14500000000001 total_loss 648.0555792152882
+epoch: 8 batch_size:  100 correct_images_count 57799 correct_sum_count 43722 image_accuracy 96.33166666666668 sum_accuracy 72.87 total_loss 659.6569232940674
+epoch: 9 batch_size:  100 correct_images_count 57940 correct_sum_count 43852 image_accuracy 96.56666666666666 sum_accuracy 73.08666666666667 total_loss 646.2071326375008
+
+```
 
