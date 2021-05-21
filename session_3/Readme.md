@@ -173,6 +173,13 @@ class Network(nn.Module):
         return t, combined_vector
 ```
 
+We can see above how the random number vector and the prediction vector after image classification is done.
+
+```
+ combined_vector = torch.cat([t_vector, rand_num_vector], dim=-1)
+```
+
+
 ### Training
 Training is done by using the data loader with batch size of 100.
 Loss is calculated for image classification and sum prediction individually and is propagated back. 
@@ -256,3 +263,48 @@ epoch: 9 batch_size:  100 correct_images_count 57940 correct_sum_count 43852 ima
 
 ```
 
+### Evaluating the Model.
+Evaluation is done by using MNIST test data.
+The custom data is generated similarly as training data.
+
+```
+# download test mnist data which consists of 10000 images.
+
+test_set = torchvision.datasets.MNIST(
+    root='./data'
+    ,train=False
+    ,download=True
+    ,transform=transforms.Compose([
+        transforms.ToTensor()
+    ])
+)
+
+# test data loaders
+mnist_adder_test_data = MNISTAdderDataset(test_set)
+mnist_adder_test_data_loader = torch.utils.data.DataLoader(mnist_adder_test_data,
+                                               batch_size=100,
+                                               shuffle=False,
+                                               )
+```
+
+Now, we predict the values of test data using the network model trained above.
+
+```
+total_image_correct = 0
+total_sum_correct = 0
+
+for batch in mnist_adder_test_data_loader:
+  x1s, x2s, y1s, y2s = batch
+  predicted_y1s, predicted_y2s = network(x1s, x2s)
+  total_image_correct += get_num_correct(predicted_y1s, y1s)
+  total_sum_correct += get_num_correct(predicted_y2s, y2s)
+
+print("total_image_correct", total_image_correct, "image prediction accuracy:", (total_image_correct/10000.0) * 100)
+print("total_sum_correct", total_sum_correct, "sum prediction accuracy", (total_sum_correct/10000) * 100)
+```
+
+The following accuracy has been achieved from the model.
+```
+total_image_correct 9625 image prediction accuracy: 96.25
+total_sum_correct 7217 sum prediction accuracy 72.17
+```
