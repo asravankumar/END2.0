@@ -12,6 +12,12 @@ Write a neural network that can take 2 inputs:
 ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_3/assign.png)
 
 
+### check device
+```
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+```
+
 ### Data Download for training
 MNIST training data is downloaded from torchvision datasets.
 The training data consists of 60000 labelled images.
@@ -189,7 +195,7 @@ Adam Optimizer is used during training.
 import torch.optim as optim
 torch.set_grad_enabled(True) # to enable the gradients.
 
-network = Network()
+network = Network().to(device)
 optimizer = optim.Adam(network.parameters(), lr=0.02) # using adam's optimizer with learning rate of 0.02
 
 # to check the number of correct predictions.
@@ -212,6 +218,7 @@ for epoch in range(10):
         # y2s : sum.
     
         x1s, x2s, y1s, y2s = batch
+        x1s, x2s, y1s, y2s = x1s.to(device), x2s.to(device), y1s.to(device), y2s.to(device)
         x2s = x2s.squeeze()
 
         # predictions
@@ -262,9 +269,14 @@ epoch: 8 batch_size:  100 correct_images_count 57799 correct_sum_count 43722 ima
 epoch: 9 batch_size:  100 correct_images_count 57940 correct_sum_count 43852 image_accuracy 96.56666666666666 sum_accuracy 73.08666666666667 total_loss 646.2071326375008
 
 ```
+### Loss Function
+Cross Entropy loss has been used for both are classification tasks. This loss function combines logsoftmax and nll loss. Hence, good for classification.
+  - Image Classification.
+  - The sum classification. This is classification because of the network. We have 19 features for every sum value. 
+
 
 ### Evaluating the Model.
-Evaluation is done by using MNIST test data.
+Evaluation is done by using MNIST test data and predicting these on the trained model.
 The custom data is generated similarly as training data.
 
 ```
