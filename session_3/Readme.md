@@ -36,7 +36,10 @@ train_set = torchvision.datasets.MNIST(
 
 ### Data Generation
 The MNIST data is combined with the following approach to generate the complete training data for the problem.
-- For each image, a random number is generated, sum is calculated with the image label. the random number is converted to one-hot vector.
+- For each image, a random number is generated, sum is calculated with the image label. 
+- The random number is converted to one-hot vector.
+- Hence, there are two inputs - image & one-hot vector of random number.
+- There are two outputs - the image label & other being the sum.
 
 ```
 # data set creation
@@ -71,6 +74,13 @@ mnist_adder_training_data_loader = torch.utils.data.DataLoader(mnist_adder_train
 ```
 
 ### Network
+The network consists of two parts.
+- Image classification.
+  - This is done by making use of two convolution layers and two linear fully connected layers.
+- Sum computing.
+  - The input is a combined vector of the image output vector to one-hot vector of random number.
+  - Fully connected layers with 19 output features.(one for each sum value 0 to 18)
+
 The network consists of the following layers.
 ```
 Network(
