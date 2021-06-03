@@ -52,12 +52,12 @@ Write a neural network(LSTM) to predict the sentiment using Stanford Sentiment A
     - In this technique, we translate the sentence to a random language and back translate it to english. The sentence may not be necessarily be the same. And hence, can be used to reduce the imbalance.
 
   Other techniques like 'random delete' and 'random swap' can be used to reduce the overfitting.
-    - random delete
-      - In this technique, randomly delete some words from sentences.
-    - random swap
-      - In this technique, randomly swap the positions of two words. do this n times.
+  - random delete
+    - In this technique, randomly delete some words from sentences.
+  - random swap
+    - In this technique, randomly swap the positions of two words. do this n times.
 
   These three techniques are applied to improve the data quality of the dataset.
   After applying, following is the data distribution.
 
-  ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_5/value_counts_after_augmentation.png)
+  ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_5/value_counts_after_aug.png)
