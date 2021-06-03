@@ -101,65 +101,156 @@ The model has 2,642,705 trainable parameters
 Training Logs:
 
 ```
-  Train Loss: 1.593 | Train Acc: 25.56%
-	 Val. Loss: 1.579 |  Val. Acc: 27.71% 
+	Train Loss: 1.360 | Train Acc: 56.27%
+	 Val. Loss: 1.529 |  Val. Acc: 33.96% 
 
-	Train Loss: 1.582 | Train Acc: 29.12%
-	 Val. Loss: 1.570 |  Val. Acc: 29.35% 
+	Train Loss: 1.305 | Train Acc: 63.72%
+	 Val. Loss: 1.536 |  Val. Acc: 33.63% 
 
-	Train Loss: 1.552 | Train Acc: 34.43%
-	 Val. Loss: 1.544 |  Val. Acc: 33.96% 
+	Train Loss: 1.257 | Train Acc: 68.48%
+	 Val. Loss: 1.538 |  Val. Acc: 34.26% 
 
-	Train Loss: 1.500 | Train Acc: 39.29%
-	 Val. Loss: 1.541 |  Val. Acc: 34.35% 
+	Train Loss: 1.213 | Train Acc: 72.54%
+	 Val. Loss: 1.530 |  Val. Acc: 34.76% 
 
-	Train Loss: 1.450 | Train Acc: 45.25%
-	 Val. Loss: 1.535 |  Val. Acc: 35.36% 
+	Train Loss: 1.175 | Train Acc: 76.01%
+	 Val. Loss: 1.528 |  Val. Acc: 35.39% 
 
-	Train Loss: 1.399 | Train Acc: 51.61%
-	 Val. Loss: 1.527 |  Val. Acc: 35.42% 
+	Train Loss: 1.144 | Train Acc: 79.01%
+	 Val. Loss: 1.542 |  Val. Acc: 34.61% 
 
-	Train Loss: 1.346 | Train Acc: 58.07%
-	 Val. Loss: 1.537 |  Val. Acc: 34.40% 
+	Train Loss: 1.119 | Train Acc: 80.97%
+	 Val. Loss: 1.539 |  Val. Acc: 33.90% 
 
-	Train Loss: 1.295 | Train Acc: 64.05%
-	 Val. Loss: 1.535 |  Val. Acc: 34.88% 
+	Train Loss: 1.098 | Train Acc: 82.56%
+	 Val. Loss: 1.543 |  Val. Acc: 33.90% 
 
-	Train Loss: 1.246 | Train Acc: 69.25%
-	 Val. Loss: 1.544 |  Val. Acc: 33.12% 
+	Train Loss: 1.083 | Train Acc: 83.86%
+	 Val. Loss: 1.544 |  Val. Acc: 33.93% 
 
-	Train Loss: 1.203 | Train Acc: 73.62%
-	 Val. Loss: 1.549 |  Val. Acc: 32.68% 
+	Train Loss: 1.071 | Train Acc: 84.91%
+	 Val. Loss: 1.551 |  Val. Acc: 32.56% 
 
-	Train Loss: 1.166 | Train Acc: 77.15%
-	 Val. Loss: 1.546 |  Val. Acc: 33.57% 
+	Train Loss: 1.058 | Train Acc: 85.92%
+	 Val. Loss: 1.548 |  Val. Acc: 33.63% 
 
-	Train Loss: 1.136 | Train Acc: 80.05%
-	 Val. Loss: 1.547 |  Val. Acc: 33.63% 
+	Train Loss: 1.048 | Train Acc: 86.67%
+	 Val. Loss: 1.551 |  Val. Acc: 33.72% 
 
-	Train Loss: 1.111 | Train Acc: 81.84%
-	 Val. Loss: 1.558 |  Val. Acc: 32.44% 
+	Train Loss: 1.041 | Train Acc: 87.27%
+	 Val. Loss: 1.561 |  Val. Acc: 32.56% 
 
-	Train Loss: 1.092 | Train Acc: 83.41%
-	 Val. Loss: 1.551 |  Val. Acc: 33.51% 
+	Train Loss: 1.035 | Train Acc: 87.63%
+	 Val. Loss: 1.553 |  Val. Acc: 33.18% 
 
-	Train Loss: 1.076 | Train Acc: 84.75%
-	 Val. Loss: 1.557 |  Val. Acc: 32.80% 
+	Train Loss: 1.028 | Train Acc: 88.18%
+	 Val. Loss: 1.556 |  Val. Acc: 32.56% 
 
-	Train Loss: 1.064 | Train Acc: 85.58%
-	 Val. Loss: 1.560 |  Val. Acc: 31.70% 
+	Train Loss: 1.026 | Train Acc: 88.37%
+	 Val. Loss: 1.553 |  Val. Acc: 32.74% 
 
-	Train Loss: 1.054 | Train Acc: 86.30%
-	 Val. Loss: 1.562 |  Val. Acc: 32.38% 
+	Train Loss: 1.022 | Train Acc: 88.62%
+	 Val. Loss: 1.556 |  Val. Acc: 32.89% 
 
-	Train Loss: 1.047 | Train Acc: 86.81%
-	 Val. Loss: 1.563 |  Val. Acc: 31.79% 
+	Train Loss: 1.023 | Train Acc: 88.65%
+	 Val. Loss: 1.560 |  Val. Acc: 32.23% 
 
-	Train Loss: 1.040 | Train Acc: 87.22%
-	 Val. Loss: 1.563 |  Val. Acc: 32.35% 
+	Train Loss: 1.019 | Train Acc: 88.96%
+	 Val. Loss: 1.554 |  Val. Acc: 33.42% 
 
-	Train Loss: 1.035 | Train Acc: 87.58%
-	 Val. Loss: 1.560 |  Val. Acc: 33.10% 
+	Train Loss: 1.018 | Train Acc: 88.98%
+	 Val. Loss: 1.562 |  Val. Acc: 32.29% 
+
+	Train Loss: 1.014 | Train Acc: 89.30%
+	 Val. Loss: 1.566 |  Val. Acc: 32.38% 
+
+	Train Loss: 1.010 | Train Acc: 89.62%
+	 Val. Loss: 1.563 |  Val. Acc: 32.56% 
+
+	Train Loss: 1.008 | Train Acc: 89.81%
+	 Val. Loss: 1.566 |  Val. Acc: 33.10% 
+
+	Train Loss: 1.008 | Train Acc: 89.86%
+	 Val. Loss: 1.563 |  Val. Acc: 32.65% 
+
+	Train Loss: 1.007 | Train Acc: 89.88%
+	 Val. Loss: 1.562 |  Val. Acc: 32.83% 
+
+	Train Loss: 1.008 | Train Acc: 89.89%
+	 Val. Loss: 1.568 |  Val. Acc: 31.67% 
+
+	Train Loss: 1.005 | Train Acc: 90.04%
+	 Val. Loss: 1.556 |  Val. Acc: 33.10% 
+
+	Train Loss: 1.003 | Train Acc: 90.17%
+	 Val. Loss: 1.566 |  Val. Acc: 31.13% 
+
+	Train Loss: 1.001 | Train Acc: 90.38%
+	 Val. Loss: 1.559 |  Val. Acc: 33.10% 
+
+	Train Loss: 1.000 | Train Acc: 90.46%
+	 Val. Loss: 1.552 |  Val. Acc: 33.87% 
+
+	Train Loss: 1.000 | Train Acc: 90.47%
+	 Val. Loss: 1.547 |  Val. Acc: 34.23% 
+
+	Train Loss: 1.001 | Train Acc: 90.49%
+	 Val. Loss: 1.562 |  Val. Acc: 32.74% 
+
+	Train Loss: 1.000 | Train Acc: 90.54%
+	 Val. Loss: 1.560 |  Val. Acc: 33.60% 
+
+	Train Loss: 0.997 | Train Acc: 90.73%
+	 Val. Loss: 1.567 |  Val. Acc: 31.79% 
+
+	Train Loss: 0.997 | Train Acc: 90.72%
+	 Val. Loss: 1.566 |  Val. Acc: 32.05% 
+
+	Train Loss: 0.997 | Train Acc: 90.82%
+	 Val. Loss: 1.562 |  Val. Acc: 33.36% 
+
+	Train Loss: 0.996 | Train Acc: 90.89%
+	 Val. Loss: 1.567 |  Val. Acc: 32.50% 
+
+	Train Loss: 0.995 | Train Acc: 90.99%
+	 Val. Loss: 1.556 |  Val. Acc: 33.27% 
+
+	Train Loss: 0.994 | Train Acc: 91.05%
+	 Val. Loss: 1.565 |  Val. Acc: 32.65% 
+
+	Train Loss: 0.993 | Train Acc: 91.16%
+	 Val. Loss: 1.565 |  Val. Acc: 32.38% 
+
+	Train Loss: 0.991 | Train Acc: 91.24%
+	 Val. Loss: 1.563 |  Val. Acc: 32.56% 
+
+	Train Loss: 0.991 | Train Acc: 91.27%
+	 Val. Loss: 1.579 |  Val. Acc: 30.95% 
+
+	Train Loss: 0.993 | Train Acc: 91.16%
+	 Val. Loss: 1.550 |  Val. Acc: 33.78% 
+
+	Train Loss: 0.992 | Train Acc: 91.24%
+	 Val. Loss: 1.554 |  Val. Acc: 33.45% 
+
+	Train Loss: 0.992 | Train Acc: 91.21%
+	 Val. Loss: 1.571 |  Val. Acc: 31.99% 
+
+	Train Loss: 0.993 | Train Acc: 91.14%
+	 Val. Loss: 1.549 |  Val. Acc: 34.23% 
+
+	Train Loss: 0.993 | Train Acc: 91.14%
+	 Val. Loss: 1.554 |  Val. Acc: 33.69% 
+
+	Train Loss: 0.991 | Train Acc: 91.37%
+	 Val. Loss: 1.552 |  Val. Acc: 34.32% 
+
+	Train Loss: 0.989 | Train Acc: 91.44%
+	 Val. Loss: 1.557 |  Val. Acc: 33.48% 
+
+	Train Loss: 0.988 | Train Acc: 91.53%
+	 Val. Loss: 1.558 |  Val. Acc: 33.07% 
+
 ```
 
 #### Results
@@ -167,9 +258,9 @@ Training Logs:
 
   
   ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_5/training_loss.png)
-  ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_5/validation_loss.png)
-  ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_5/training_accuracy.png)
-  ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_5/validation_accuracy.png)
+  ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_5/valid_loss.png)
+  ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_5/training_accuracies.png)
+  ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_5/validation_accuracies.png)
 
 #### Outcomes
 ```
