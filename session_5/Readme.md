@@ -19,13 +19,16 @@ Write a neural network(LSTM) to predict the sentiment using Stanford Sentiment A
     - sentiment of each phrase.
   - The PTB format consists of the sentences, and the respective phrases in tree format.
 
-In order to get the sentiment of each sentence, we need to parse the parse tree. pytreebank package does the job effectively.
+### Proposed Solution
 
-The sentiment label are mapped to sentiment classes using the following cut-offs:
-[0, 0.2] => very negative.
-[0.2, 0.4] => negative.
-[0.4, 0.6] => neutral.
-[0.6, 0.8] => very positive.
-[0.8, 1.0] => positive.
+#### DataSet Creation, Data Preprocessing, Data Augmentation
+  
+  The stanford sentiment dataset contains sentiment label for phrases. In order to get the sentiment of each sentence, we need to parse the parse tree. pytreebank<add link> package does the job effectively.
 
-We download the sentences and sentiments from pytreebank and build models. 
+  pytreebank parses and computes the sentiment of each sentence. It returns label based on the following table.
+  | raw sentiment label | mapped sentiment label | Description |
+  | [0, 0.2] | 0 | very negative |
+  | [0.2, 0.4] | 1 |negative|
+  | [0.4, 0.6] | 2 | neutral|
+  | [0.6, 0.8] | 3 | very positive|
+  | [0.8, 1.0] | 4 |positive|
