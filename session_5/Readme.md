@@ -69,21 +69,21 @@ Write a neural network(LSTM) to predict the sentiment using Stanford Sentiment A
   The steps includes preprocessing all the sentences and creating torchtext Dataset objects for the model to use. 
 
   The following preprocessing have been performed:
-    - lower case all sentences.
-    - remove stopwords.
-    - tokenize using spacy tokenizer.
+  - lower case all sentences.
+  - remove stopwords.
+  - tokenize using spacy tokenizer.
 
 ####  Model And Training
   The network consists of the following layers.
-    - Embedding layer with 300 dimensions
-    - The embedding tokens are passed to 2-layer LSTM.
-      - input nodes: 300
-      - output nodes: 100
-      - number of layers: 2
-      - dropout: 0.2
-    - Fully connected layer
-      - input nodes: 100
-      - output nodes: 5
+  - Embedding layer with 300 dimensions
+  - The embedding tokens are passed to 2-layer LSTM.
+    - input nodes: 300
+    - output nodes: 100
+    - number of layers: 2
+    - dropout: 0.2
+  - Fully connected layer
+    - input nodes: 100
+    - output nodes: 5
 
   Network:
 ```
