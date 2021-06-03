@@ -27,6 +27,7 @@ Write a neural network(LSTM) to predict the sentiment using Stanford Sentiment A
 
   pytreebank parses and computes the sentiment of each sentence. It returns label based on the following table.
   | raw sentiment label | mapped sentiment label | Description |
+  |---------------------|------------------------|-------------|
   | [0, 0.2] | 0 | very negative |
   | [0.2, 0.4] | 1 |negative|
   | [0.4, 0.6] | 2 | neutral|
