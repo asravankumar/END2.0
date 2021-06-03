@@ -31,8 +31,8 @@ Write a neural network(LSTM) to predict the sentiment using Stanford Sentiment A
   | [0, 0.2] | 0 | very negative |
   | [0.2, 0.4] | 1 |negative|
   | [0.4, 0.6] | 2 | neutral|
-  | [0.6, 0.8] | 3 | very positive|
-  | [0.8, 1.0] | 4 |positive|
+  | [0.6, 0.8] | 3 | positive|
+  | [0.8, 1.0] | 4 |very positive|
 
 
   The dataset contains of three sets train, dev and test sets.
@@ -254,7 +254,7 @@ Training Logs:
 ```
 
 #### Results
-  An Validation Accuracy of 33.10% was achieved after 20 epochs.
+  An Validation Accuracy of 33.07% was achieved after 50 epochs.
 
   
   ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_5/training_loss.png)
@@ -263,5 +263,60 @@ Training Logs:
   ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_5/validation_accuracies.png)
 
 #### Outcomes
+
+- True Positives from validation Data. One example from each class.
+
 ```
+sentence: It 's also , clearly , great fun .
+label: 4
+Predicted Label:  4 Very Positive
+
+sentence: As unseemly as its title suggests .
+label: 3
+Predicted Label:  3 Positive
+
+sentence: Smith is careful not to make fun of these curious owners of architectural oddities .
+label: 2
+Predicted Label:  2 Neutral
+
+sentence: The overall effect is less like a children 's movie than a recruitment film for future Hollywood sellouts .
+label: 1
+Predicted Label:  1 Negative
+
+sentence: It 's difficult to imagine the process that produced such a script , but here 's guessing that spray cheese and underarm noises played a crucial role .
+label: 0
+Predicted Label:  0 Very Negative
+
 ```
+
+- False Positives. - sentiment positives predicted as negatives.
+
+```
+sentence: As a first-time director , Paxton has tapped something in himself as an actor that provides Frailty with its dark soul .
+label: 3
+Predicted Label:  0 Very Negative
+
+
+sentence: By the time we learn that Andrew 's Turnabout Is Fair Play is every bit as awful as Borchardt 's Coven , we can enjoy it anyway .
+label: 2
+Predicted Label:  1 Negative
+
+sentence: There 's something auspicious , and daring , too , about the artistic instinct that pushes a majority-oriented director like Steven Spielberg to follow A.I. with this challenging report so liable to unnerve the majority .
+label: 3
+Predicted Label:  1 Negative
+
+```
+
+- False Positives. sentiment negatives predicted as positives.
+
+```
+sentence: Chabrol has taken promising material for a black comedy and turned it instead into a somber chamber drama .
+label: 1
+Predicted Label:  3 Positive
+
+```
+
+#### Future Enhancements
+- Use better data augmentation and preprocessing techniques to enhance the data quality.
+- Train using bi-LSTM or GRU.
+
