@@ -21,7 +21,7 @@ Write a neural network(LSTM) to predict the sentiment using Stanford Sentiment A
 
 ### Proposed Solution
 
-#### DataSet Creation, Data Preprocessing, Data Augmentation
+#### DataSet Download and Understanding
   
   The stanford sentiment dataset contains sentiment label for phrases. In order to get the sentiment of each sentence, we need to parse the parse tree. pytreebank<add link> package does the job effectively.
 
@@ -33,3 +33,31 @@ Write a neural network(LSTM) to predict the sentiment using Stanford Sentiment A
   | [0.4, 0.6] | 2 | neutral|
   | [0.6, 0.8] | 3 | very positive|
   | [0.8, 1.0] | 4 |positive|
+
+
+  The dataset contains of three sets train, dev and test sets.
+  We consider train and dev sets for our model training and testing respectively.
+
+  Overall there are around 8544 training labelled sentences. The distribution of each label across can be visualized as follows.
+  
+  ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_5/value_counts.png)
+
+
+  Clearly, we can see there is an imbalance for class labels 0 and 4 w.r.t the other labels. Training the model with such dataset would not result in accurate models.
+  Data Augmentation techniques can be used to address this issue.
+
+#### Data Augmentation
+  We can apply data augmentation techniques like 'Back Translate' to increase the count of label 0 and 4.
+  - Back Translate
+    - In this technique, we translate the sentence to a random language and back translate it to english. The sentence may not be necessarily be the same. And hence, can be used to reduce the imbalance.
+
+  Other techniques like 'random delete' and 'random swap' can be used to reduce the overfitting.
+    - random delete
+      - In this technique, randomly delete some words from sentences.
+    - random swap
+      - In this technique, randomly swap the positions of two words. do this n times.
+
+  These three techniques are applied to improve the data quality of the dataset.
+  After applying, following is the data distribution.
+
+  ![alt text](https://github.com/asravankumar/END2.0/blob/master/session_5/value_counts_after_augmentation.png)
