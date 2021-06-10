@@ -51,6 +51,8 @@ The model has 1,597,403 trainable parameters
 
 #### Encoder Decoder Classifier Classes
 
+  This [playbook](https://github.com/asravankumar/END2.0/blob/master/session_6/encoder_decoder_tweets_sentiment_2_lstm_decoder.ipynb) is being used for the above architecture.
+
   - Encoder
 
 ```
