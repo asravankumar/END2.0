@@ -677,6 +677,7 @@ encoding output vector: tensor([-0.9559,  0.6420, -0.6015,  0.2630, -0.7700, -0.
 
   - The Encoder final state hidden vector which is the single vector for sequence:
 
+```
 single vector: tensor([[[-0.9559,  0.6420, -0.6015,  0.2630, -0.7700, -0.2949, -0.8028,
            0.4226, -0.9548, -0.5160, -0.8298, -0.0010, -0.5378, -0.3351,
            0.5813, -0.8207,  0.9595, -0.6984,  0.6882, -0.7042, -0.3956,
