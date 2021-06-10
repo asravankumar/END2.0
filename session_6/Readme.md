@@ -38,7 +38,118 @@ EncoderDecoderClassifier(
 The model has 1,597,403 trainable parameters
 ```
 
-  Adam Optimizer with crossentropyloss function is used.
+#### Encoder Decoder Classifier Classes
+
+  - Encoder
+
+```
+class Encoder(nn.Module):
+  def __init__(self, vocab_size, embedding_dim, hidden_dim):
+    # Encoder class which accepts a sequence(tweet) and converts it into a context vector.
+    super().__init__()
+
+    # Embedding layer
+    self.embedding = nn.Embedding(vocab_size, embedding_dim)
+
+    # RNN Layer for encoding
+    self.rnn_layer = nn.RNN(embedding_dim,
+                          hidden_dim,
+                          batch_first=True)
+    
+  def forward(self, text, text_lengths):
+    # text = [batch size, sent_length]
+    embedded_text         = self.embedding(text)
+
+    # embedded = [batch size, sent_len, emb dim]
+
+    # packed sequence
+    packed_embedded_text  = nn.utils.rnn.pack_padded_sequence(embedded_text,
+                                                        text_lengths.cpu(),
+                                                        batch_first=True)
+    # input sequence to the rnn layer 
+    encoder_output, hidden   = self.rnn_layer(packed_embedded_text)
+    # rnn output in packed format which contains outputs at every sequence.
+    # the hidden will be of last state only.
+    # hidden = [1 , batch_size, hidden_dim]
+    # Note that, the hidden tensor will not be in the batch_first = True shape. Only the output tensor will be in batch_first if it is set to true.
+
+    # unpack the encoder rnn output 
+    encoder_output, encoder_output_lengths = nn.utils.rnn.pad_packed_sequence(encoder_output, batch_first=True)
+    # will be in batch_first = True shape
+    # encoder_output = [batch_size, sent_len, hidden_dim]
+
+    # here returning the output at all states.
+    # and the last hidden vector which is the SINGLE context vector for the input sequence. 
+    return(encoder_output, hidden)
+```
+
+  - Decoder
+
+```
+class Decoder(nn.Module):
+  def __init__(self, encoder_output_dim, hidden_dim):
+    super().__init__()
+
+    # lstm layer as part of decoder.
+    # the encoder emits a hidden vector with one sequence. Hence, lstm is here for once in the pipeline.
+
+    self.decoder = nn.LSTM(encoder_output_dim, 
+                       hidden_dim,  
+                       batch_first=True)
+    self.decoder2 = nn.LSTM(hidden_dim, 
+                       hidden_dim,  
+                       batch_first=True)
+
+  def forward(self, single_vector):
+    # Here single_vector is the hidden vector from the encoder.
+    # single_vector = [batch_size, 1, hidden_dim]
+
+    # encoder_output = encoder_output.squeeze(0).unsqueeze(1)
+    # encoder_output
+    output, (hidden_vector, cell_vector) = self.decoder(single_vector)
+
+    # hidden_vector is the decoded vector which is input to the fully connected layer.
+    # hidden_vector = [1, batch_size, hidden_dim]
+    output2, (hidden_vector2, cell_vector2) = self.decoder(output, (hidden_vector, cell_vector))
+
+    return(output2, hidden_vector2)
+```
+
+  - EncoderDecoderClassifier
+
+```
+class EncoderDecoderClassifier(nn.Module):
+  def __init__(self, vocab_size, embedding_dim, hidden_dim, output_dim):
+    super(EncoderDecoderClassifier, self).__init__()
+
+    self.encoder = Encoder(vocab_size, embedding_dim, hidden_dim)
+    self.decoder = Decoder(hidden_dim, hidden_dim)
+    self.fc      = nn.Linear(hidden_dim, output_dim)
+
+  def forward(self, text, text_lengths):
+    # Encoder encodes using an rnn.
+    encoder_output, encoder_hidden = self.encoder(text, text_lengths)
+
+    # the hidden vector emitted by rnn is not in batch_first=True shape. Hence converting.
+    # encoder_hidden = [1, batch_size, hidden_dim]
+    encoder_hidden = encoder_hidden.squeeze(0).unsqueeze(1)
+    # After reshaping
+    # encoder_hidden = [batch_size, 1, hidden_dim]
+    
+    # Decode the input encoded single vector.
+    decoder_output, decoder_hidden = self.decoder(encoder_hidden)
+
+    # the hidden vector emitted by the decoder is in the batch_first=False shape. Hence convert it to shape for linear layer.
+    decoder_hidden = decoder_hidden.squeeze(0) #.unsqueeze(1)
+    # input to fully connected layer dimension = [batch_size, hidden_dim]
+    dense_outputs = self.fc(decoder_hidden)
+
+    # fully connected layer output = [batch_size, output_dim]
+    final_output = F.softmax(dense_outputs, dim=0)
+    return(final_output, encoder_output, encoder_hidden, decoder_output)
+```
+
+Adam Optimizer with crossentropyloss function is used.
 
 
 Training Logs:
